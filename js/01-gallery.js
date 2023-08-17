@@ -1,8 +1,9 @@
-import { galleryItems } from './gallery-items.js';
+import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 
-const listGalleryRef = document.querySelector(".gallery");
+//? Создание элементов
 
+const listGalleryRef = document.querySelector(".gallery");
 
 const createRef = () =>
   galleryItems
@@ -13,40 +14,40 @@ const createRef = () =>
     )
     .join("");
 
-listGalleryRef.insertAdjacentHTML("beforeend", createRef())
+listGalleryRef.insertAdjacentHTML("beforeend", createRef());
 
-
+//? Функция открытия модалки
 
 const currentClick = (event) => {
   if (event.target === event.currentTarget) {
-    return
+    return;
   }
 
   const basicEl = basicLightbox.create(`<div class="modal">
   <li class="gallery__item">
         <img src="${event.target.dataset.original}" alt="${event.target.description}"data-original ="${event.target.original}" class="gallery__image"/>
-        </li></div>`)
+        </li></div>`);
+
+  basicEl.show();
+
   
 
-  basicEl.show()
+  //? Обработчик события закрытия модалки по клику на изображения в модалке
 
+  const divLightbox = document.querySelector(".basicLightbox");
 
-  const divLightbox = document.querySelector(".basicLightbox")
-  
-divLightbox.addEventListener("click", () => {
-  divLightbox.classList.toggle("basicLightbox--visible")
-})
-  
+  divLightbox.addEventListener("click", () => {
+    divLightbox.classList.toggle("basicLightbox--visible");
+  });
+
+  //? Обработчик события закрытия модалки по клику на Escape
+
   document.addEventListener("keyup", (evn) => {
-  console.log(evn.key);
-  if (evn.key === "Escape") {
-     divLightbox.classList.remove("basicLightbox--visible")
-  }
-  })
-  
-}
+    console.log(evn.key);
+    if (evn.key === "Escape") {
+      divLightbox.classList.remove("basicLightbox--visible");
+    }
+  });
+};
 
-  
-listGalleryRef.addEventListener("click", currentClick)
- 
- 
+listGalleryRef.addEventListener("click", currentClick);
