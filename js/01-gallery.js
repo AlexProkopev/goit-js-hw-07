@@ -8,8 +8,11 @@ const listGalleryRef = document.querySelector(".gallery");
 const createRef = () =>
   galleryItems
     .map(
-      (obj) => `<li class="gallery__item">
-        <img src="${obj.preview}" alt="${obj.description}"data-original ="${obj.original}" class="gallery__image"/>
+      ({preview,description,original}) => `<li class="gallery__item">
+       <a class="gallery__link" href="${original}">
+       <img src="${preview}" alt="${description}"data-original ="${original}" class="gallery__image"/>
+       </a>
+        
         </li>`
     )
     .join("");
@@ -19,25 +22,25 @@ listGalleryRef.insertAdjacentHTML("beforeend", createRef());
 //? Функция открытия модалки
 
 const currentClick = (event) => {
+  event.preventDefault()
   if (event.target === event.currentTarget) {
     return;
   }
-
+  
+  const {dataset,description,original} = event.target
   const basicEl = basicLightbox.create(`<div class="modal">
   <li class="gallery__item">
-        <img src="${event.target.dataset.original}" alt="${event.target.description}"data-original ="${event.target.original}" class="gallery__image"/>
+        <img src="${dataset.original}" alt="${description}"data-original ="${original}" class="gallery__image"/>
         </li></div>`);
 
   basicEl.show();
-
-  
 
   //? Обработчик события закрытия модалки по клику на изображения в модалке
 
   const divLightbox = document.querySelector(".basicLightbox");
 
   divLightbox.addEventListener("click", () => {
-    divLightbox.classList.toggle("basicLightbox--visible");
+    basicEl.close()
   });
 
   //? Обработчик события закрытия модалки по клику на Escape
@@ -45,7 +48,7 @@ const currentClick = (event) => {
   document.addEventListener("keyup", (evn) => {
     console.log(evn.key);
     if (evn.key === "Escape") {
-      divLightbox.classList.remove("basicLightbox--visible");
+      basicEl.close()
     }
   });
 };
