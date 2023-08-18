@@ -35,22 +35,21 @@ const currentClick = (event) => {
 
   basicEl.show();
 
-  //? Обработчик события закрытия модалки по клику на изображения в модалке
-
-  const divLightbox = document.querySelector(".basicLightbox");
-
-  divLightbox.addEventListener("click", () => {
-    basicEl.close()
-  });
-
   //? Обработчик события закрытия модалки по клику на Escape
 
-  document.addEventListener("keyup", (evn) => {
-    console.log(evn.key);
+  const ESC = (evn) => {
     if (evn.key === "Escape") {
+      console.log(evn.key);
       basicEl.close()
+       document.removeEventListener("keyup", ESC)
     }
-  });
+  }
+  document.addEventListener("keyup", ESC);
+  
+  
 };
 
+
+
 listGalleryRef.addEventListener("click", currentClick);
+
